@@ -20,9 +20,17 @@ test("gameboard receiveAttack function (shot missing)",() => {
 });
 
 test("gameboard receiveAttack function (shot hitting)",() => {
-  const g2 = gameboard();
-  g2.addShip([[1,2],[1,3]]);
-  g2.receiveAttack([1,2]);
-  expect(g2.shots[0]).toEqual({x:1,y:2,hit:true});
-  expect(g2.ships[0].hits).toBe(1);
+  const g = gameboard();
+  g.addShip([[1,2],[1,3]]);
+  g.receiveAttack([1,2]);
+  expect(g.shots[0]).toEqual({x:1,y:2,hit:true});
+  expect(g.ships[0].hits).toBe(1);
+});
+
+test("gameboard areAllShipsSunk function",() => {
+  const g = gameboard();
+  g.addShip([[1,2],[2,2]]);
+  g.receiveAttack([1,2]);
+  g.receiveAttack([2,2]);
+  expect(g.areAllShipsSunk()).toBe(true);
 });

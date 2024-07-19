@@ -65,10 +65,20 @@ export function gameboard(){
     return false;
   }
 
+  function areAllShipsSunk(){
+    for(let ship of ships){
+      if(!(ship.isSunk())){
+        return false;
+      }
+    }
+    return true;
+  }
+
   return {
     shots,
     ships,
     addShip,
     receiveAttack,
+    areAllShipsSunk,
   };
 }
