@@ -15,31 +15,60 @@ export function gameboard(){
   function isValidShipCoords(inputCoords){
     let isValid = true;
     ships.forEach((s) => {
-        const currentShipCoords = s.coords;
-        for(let coord of inputCoords){
-          if(containsCoord(currentShipCoords,coord)){
-            isValid = false;
-          }
+      const currentShipCoords = s.coords;
+      for(let coord of inputCoords){
+        if(containsCoord(currentShipCoords,coord)){
+          isValid = false;
         }
-      });
+      }
+    });
     return isValid;
   }
 
-    function containsCoord(shipCoords,targetCoord){
-      const stringifiedTargetCoord = targetCoord.join(",");
-      for(let coord of shipCoords){
-        const stringifiedShipCoord = coord.join(",");
-        if(stringifiedShipCoord === stringifiedTargetCoord){
-          return true;
-        }
+  function containsCoord(shipCoords,targetCoord){
+    // input formats: shipCoords => [[2,3],[2,4]]  targetCoord => [2,3]
+    const stringifiedTargetCoord = targetCoord.join(",");
+    for(let coord of shipCoords){
+      const stringifiedShipCoord = coord.join(",");
+      if(stringifiedShipCoord === stringifiedTargetCoord){
+        return true;
       }
-      return false;
     }
+    return false;
+  }
+
+  function receiveAttack(coords){
+    const [x,y] = coords;
+    const hit = doesHit(coords);
+    shots.push({x,y,hit})
+    if(hit){
+      sendHitToTargetShip(coords);
+    }
+  }
+
+  function sendHitToTargetShip(coords){
+    for(let ship of ships){
+      const currentShipCoord = ship.coords;
+      if(containsCoord(currentShipCoord,coords)){
+        ship.hit();
+      }
+    }
+  }
+
+  function doesHit(coords){
+    for(let ship of ships){
+      const currentShipCoord = ship.coords;
+      if(containsCoord(currentShipCoord,coords)){
+        return true;
+      }
+    }
+    return false;
+  }
 
   return {
     shots,
     ships,
     addShip,
-    isValidShipCoords,
+    receiveAttack,
   };
 }
