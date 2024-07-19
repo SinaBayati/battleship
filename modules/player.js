@@ -1,6 +1,6 @@
 import { gameboard } from './gameboard';
 
-export function player(name = "Computer"){
+export function player(name){
   return {
     gameboard: gameboard(),
     name,

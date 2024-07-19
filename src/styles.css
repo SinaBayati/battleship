@@ -1,0 +1,94 @@
+*,*::after,*::before{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  font-size: 62.5%;
+}
+
+:root{
+  --green: #00ff00;
+}
+
+body{
+  background-color: black;
+}
+
+.container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8rem 10rem;
+}
+
+div[data-state="empty"]{
+  background-color: black;
+}
+div[data-state="marked"]{
+  background-color: #0080ff;
+}
+div[data-state="hit"]{
+  background-color: red;
+}
+div[data-state="ship"]{
+  background-color: var(--green);
+}
+
+.gameboard{
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 1px;
+  width: 400px;
+  height: 400px;
+  background-color: var(--green);
+  border: 5px solid var(--green);
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--green);
+}
+
+.text{
+  color: var(--green);
+  font-size: 3rem;  
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  text-shadow: 0 0 5px var(--green);
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 1rem;
+}
+
+.btn-container{
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.btn{
+  padding: 20px;
+  border-radius: 5px;
+  border: 2px solid var(--green);
+  background-color: black;
+  color: var(--green);
+  font-size: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 900;
+  text-shadow: 0 0 5px var(--green);
+  box-shadow: 0 0 5px var(--green);
+  transition: all .2s;
+}
+
+.btn:hover,
+.btn:active{
+  background-color: var(--green);
+  color: black;
+}
+
+#gameboard-1{
+
+}
+
+#gameboard-2{
+
+}
