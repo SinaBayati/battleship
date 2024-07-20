@@ -1,5 +1,6 @@
-export function generateShipCoords(shipLength,orientation = "h"){
+export function generateShipCoords(shipLength){
   let coords = [];
+  let orientation = randBool() ? "h" : "v";
   
   while(true){
     let x = randNum();
@@ -20,6 +21,12 @@ export function generateShipCoords(shipLength,orientation = "h"){
     coords = [];
   }
   return coords;
+}
+
+function randBool(){
+  const randNum = Math.floor((Math.random()) * 2);
+  if(randNum === 0) return false;
+  return true;
 }
 
 function randNum(start = 0,end = 9){

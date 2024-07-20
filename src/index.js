@@ -1,42 +1,113 @@
 import "./styles.css";
 import { player } from '../modules/player';
 import { generateShipCoords } from '../modules/generate-ship-coords';
-import { renderGameboard } from '../modules/DOM';
+import { 
+  initializeGameboard,
+  renderGameboard,
+  updateGameboard,
+} from '../modules/DOM';
+import { computerAttack } from '../modules/computerAttack';
 
-const player_1 = player("Human");
-const player_2 = player("Computer");
+const restartBtn = document.querySelector("#restart");
+const reordertBtn = document.querySelector("#reorder");
+const playBtn = document.querySelector("#play");
+const computerGameboardEl = document.querySelector("#gameboard-computer");
 
-function getRandomCoord(){
-  const x = Math.floor(Math.random() * 10);
-  const y = Math.floor(Math.random() * 10);
-  return [x,y];
+const humanPlayer = player("Human");
+addShipsToGameboard(humanPlayer.gameboard);
+
+const computerPlayer = player("Computer");
+addShipsToGameboard(computerPlayer.gameboard);
+
+renderGameboard("#gameboard-human");
+initializeGameboard(humanPlayer.gameboard,"#gameboard-human");
+renderGameboard("#gameboard-computer");
+initializeGameboard(computerPlayer.gameboard,"#gameboard-computer");
+
+function addShipsToGameboard(gameboard){
+  while(gameboard.ships.length !== 1){
+    gameboard.addShip(generateShipCoords(4));
+  }
+  while(gameboard.ships.length !== 2){
+    gameboard.addShip(generateShipCoords(3));
+  }
+  while(gameboard.ships.length !== 3){
+    gameboard.addShip(generateShipCoords(3));
+  }
+  while(gameboard.ships.length !== 4){
+    gameboard.addShip(generateShipCoords(2));
+  }
+  while(gameboard.ships.length !== 5){
+    gameboard.addShip(generateShipCoords(2));
+  }
+  while(gameboard.ships.length !== 6){
+    gameboard.addShip(generateShipCoords(2));
+  }
 }
 
-renderGameboard("#gameboard-1");
-renderGameboard("#gameboard-2");
+function computerPlay(){
+  computerAttack(humanPlayer);
+  updateGameboard(humanPlayer.gameboard,"#gameboard-human");
+}
 
-function getPlayerAttackCoord(){
-  // TODO ...
+function humanPlay(event){
+  const tile = event.target;
+  const coordsStr = tile.dataset.coords;
+
+  if(!isCoordStrUnique(coordsStr)){
+    return;
+  }
+
+  let coordArr = coordsStr.split(",");
+  coordArr = [Number(coordArr[0]),Number(coordArr[1])];
+
+  computerPlayer.gameboard.receiveAttack(coordArr);
+  updateGameboard(computerPlayer.gameboard,"#gameboard-computer");
+
+  if(computerPlayer.gameboard.areAllShipsSunk()){
+    showWinner("human");
+    removeListeners();
+  } else {
+    computerPlay();
+    if(humanPlayer.gameboard.areAllShipsSunk()){
+      showWinner("computer");
+      removeListeners();
+    }
+  }
+}
+
+const selectedCoords = [];
+function isCoordStrUnique(coordStr){
+  if(selectedCoords.every(c => !(c == coordStr))){
+    selectedCoords.push(coordStr);
+    return true;
+  }
+  return false;
+}
+
+function removeListeners(){
+  computerGameboardEl.removeEventListener(humanPlay);
 }
 
 function showWinner(winner){
   if(winner === "human"){
-    // TODO
+    alert('Human Won');
   } else if(winner === "computer"){
-    // TODO
+    alert("Computer Won");
   }
 }
 
-// while(true){
-//   player_2.gameboard.receiveAttack(getPlayerAttackCoord());
-//   if(player_2.gameboard.areAllShipsSunk()){
-//     showWinner("human");
-//     break;
-//   }
-//   player_1.gameboard.receiveAttack(getRandomCoord());
-//   if(player_1.gameboard.areAllShipsSunk()){
-//     showWinner("computer");
-//     break;
-//   }
-// }
+restartBtn.addEventListener("click",() => {
+  location.reload();
+});
 
+playBtn.addEventListener("click",() => {
+  reordertBtn.setAttribute("disabled","true");
+  playBtn.setAttribute("disabled","true");
+  restartBtn.removeAttribute("disabled");
+  computerGameboardEl.addEventListener("click",humanPlay);
+});
+
+reordertBtn.addEventListener("click",() => {
+  location.reload();
+});

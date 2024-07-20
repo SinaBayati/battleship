@@ -77,6 +77,7 @@ div[data-state="ship"]{
   text-shadow: 0 0 5px var(--green);
   box-shadow: 0 0 5px var(--green);
   transition: all .2s;
+  cursor: pointer;
 }
 
 .btn:hover,
@@ -85,10 +86,10 @@ div[data-state="ship"]{
   color: black;
 }
 
-#gameboard-1{
-
+.btn:disabled{
+  display: none;
 }
 
-#gameboard-2{
-
+#gameboard-computer > div[data-state="ship"]{
+  background-color: black;
 }
