@@ -12,6 +12,7 @@ const restartBtn = document.querySelector("#restart");
 const reordertBtn = document.querySelector("#reorder");
 const playBtn = document.querySelector("#play");
 const computerGameboardEl = document.querySelector("#gameboard-computer");
+const winnerEl = document.querySelector("#winner");
 
 const humanPlayer = player("Human");
 addShipsToGameboard(humanPlayer.gameboard);
@@ -91,9 +92,9 @@ function removeListeners(){
 
 function showWinner(winner){
   if(winner === "human"){
-    alert('Human Won');
+    winnerEl.textContent = "Human Won!";
   } else if(winner === "computer"){
-    alert("Computer Won");
+    winnerEl.textContent = "Computer Won!";
   }
 }
 
