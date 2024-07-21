@@ -10,20 +10,22 @@ export function renderGameboard(selector){
 }
 
 export function updateGameboard(gameboardObj,selector){
-  gameboardObj.shots.forEach((shot) => {
-    const shotStr = `${shot.x},${shot.y}`;
-    const tiles = Array.from(document
-    .querySelector(selector)
-    .querySelectorAll(`${selector} > div`)
-    );
+  // gameboardObj.shots.forEach((shot) => {
+  //   const shotStr = `${shot.x},${shot.y}`;
+      const shotObj = gameboardObj.shots.at(-1);
+      const shotCoordStr = `${shotObj.x},${shotObj.y}`;
+      
+      const tiles = Array
+      .from(document.querySelector(selector)
+      .querySelectorAll(`${selector} > div`));
 
-    tiles.forEach((t) => {
-      if(t.dataset.coords == shotStr){
-        if(shot.hit) t.dataset.state = "hit";
-        if(!shot.hit) t.dataset.state = "marked";
-      }
-    });
-  });
+      tiles.forEach((t) => {
+        if(t.dataset.coords == shotCoordStr){
+            if(shotObj.hit) t.dataset.state = "hit";
+            if(!shotObj.hit) t.dataset.state = "marked";
+          }
+      });
+
 }
 
 export function initializeGameboard(gameboard,selector){

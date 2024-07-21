@@ -11,11 +11,11 @@ export function computerAttack(player){
 function isValidShot(shotCoord,player){
   const shotsArray = player.gameboard.shots;
   return shotsArray.every((shot) => {
-    if(shot.x !== shotCoord[0] 
-    && shot.y !== shotCoord[1]){
-      return true;
+    if(shot.x == shotCoord[0] 
+    && shot.y == shotCoord[1]){
+      return false;
     }
-    return false;
+    return true;
   });
 }
 
